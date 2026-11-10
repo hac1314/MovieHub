@@ -4,6 +4,16 @@
 
 > 本项目仅作页面练习与技术演示，不提供任何影视资源。请通过正版授权渠道观看。
 
+## 在线预览
+
+**https://hac1314.github.io/MovieHub/**
+
+![网站预览](preview.png)
+
+手机扫码直接打开：
+
+<img src="qr.png" alt="扫码访问 MovieHub" width="200">
+
 ## 功能
 
 - **影片卡片墙**：响应式网格布局，随窗口宽度自动换行
@@ -81,7 +91,3 @@ Chrome / Edge / Firefox / Safari 等现代浏览器（使用 `CSS Grid`、`NodeL
 ## 许可
 
 仅用于学习与演示。影片名称、简介等信息版权归各自权利人所有。
-
-## 在线预览
-
-已通过 GitHub Pages 部署：**https://hac1314.github.io/MovieHub/**
