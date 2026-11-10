@@ -29,6 +29,8 @@
 ```
 MovieHub/
 ├── index.html      # 全部内容：结构 + 样式 + 逻辑（单文件）
+├── preview.png     # 网站预览图（README 展示用）
+├── qr.png          # 在线地址二维码
 ├── .gitignore
 └── README.md
 ```
