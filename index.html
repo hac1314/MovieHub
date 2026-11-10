@@ -477,11 +477,67 @@ main {
 
   <div class="categories">
     <button class="active" onclick="filterMovies('全部', this)">全部</button>
+    <button onclick="filterMovies('历史', this)">历史</button>
+    <button onclick="filterMovies('战争', this)">战争</button>
     <button onclick="filterMovies('纪录片', this)">纪录片</button>
     <button onclick="filterMovies('动画', this)">动画</button>
   </div>
 
   <div class="movies">
+
+    <div class="movie" data-type="历史" data-name="大明王朝1566" onclick="openDetail('大明王朝1566')">
+      <div class="poster">🏯</div>
+      <div class="movie-info">
+        <h3>大明王朝1566 <span class="badge">可打开</span></h3>
+        <p>剧集 · 历史</p>
+        <p class="meta">2007 · 中国大陆 · 46 集</p>
+      </div>
+    </div>
+
+    <div class="movie" data-type="历史 纪录片" data-name="河西走廊" onclick="openDetail('河西走廊')">
+      <div class="poster">🐫</div>
+      <div class="movie-info">
+        <h3>河西走廊 <span class="badge">可打开</span></h3>
+        <p>纪录片 · 历史</p>
+        <p class="meta">2015 · 中国大陆 · 10 集</p>
+      </div>
+    </div>
+
+    <div class="movie" data-type="历史" data-name="觉醒年代" onclick="openDetail('觉醒年代')">
+      <div class="poster">📰</div>
+      <div class="movie-info">
+        <h3>觉醒年代 <span class="badge">可打开</span></h3>
+        <p>剧集 · 历史</p>
+        <p class="meta">2021 · 中国大陆 · 43 集</p>
+      </div>
+    </div>
+
+    <div class="movie" data-type="战争" data-name="长津湖" onclick="openDetail('长津湖')">
+      <div class="poster">❄️</div>
+      <div class="movie-info">
+        <h3>长津湖 <span class="badge">可打开</span></h3>
+        <p>电影 · 战争</p>
+        <p class="meta">2021 · 中国大陆 · 176 分钟</p>
+      </div>
+    </div>
+
+    <div class="movie" data-type="战争" data-name="我的团长我的团" onclick="openDetail('我的团长我的团')">
+      <div class="poster">🎖️</div>
+      <div class="movie-info">
+        <h3>我的团长我的团 <span class="badge">可打开</span></h3>
+        <p>剧集 · 战争</p>
+        <p class="meta">2009 · 中国大陆 · 43 集</p>
+      </div>
+    </div>
+
+    <div class="movie" data-type="战争" data-name="八佰" onclick="openDetail('八佰')">
+      <div class="poster">🧱</div>
+      <div class="movie-info">
+        <h3>八佰 <span class="badge">可打开</span></h3>
+        <p>电影 · 战争</p>
+        <p class="meta">2020 · 中国大陆 · 147 分钟</p>
+      </div>
+    </div>
 
     <div class="movie" data-type="纪录片" data-name="航拍中国" onclick="openDetail('航拍中国')">
       <div class="poster">🌄</div>
@@ -541,6 +597,42 @@ var MOVIES = {
     meta: ["动画", "奇幻", "2019", "中国大陆", "110 分钟", "票房 50 亿+"],
     desc: "天地灵气孕育出的混元珠被一分为二，哪吒阴差阳错成为魔丸转世，被陈塘关百姓视为妖怪。面对注定三年后遭天雷摧毁的命运，他喊出\"我命由我不由天\"，最终与敖丙、父母共同对抗天命。",
     keyword: "哪吒之魔童降世 电影"
+  },
+  "大明王朝1566": {
+    poster: "🏯",
+    meta: ["剧集", "历史", "2007", "中国大陆", "46 集", "豆瓣 9.8"],
+    desc: "以明朝嘉靖年间为背景，围绕\"改稻为桑\"国策展开。一边是二十年不上朝的嘉靖帝与严嵩父子的权谋周旋，一边是海瑞抬棺上疏的死谏，把朝堂政治写成了刀光剑影的博弈，被观众称为\"中国历史剧的天花板\"。",
+    keyword: "大明王朝1566 电视剧"
+  },
+  "河西走廊": {
+    poster: "🐫",
+    meta: ["纪录片", "历史", "2015", "中国大陆", "10 集", "豆瓣 9.7"],
+    desc: "以河西走廊这条狭长地理通道为线索，从汉代张骞出使西域讲到当代，串联起丝绸之路两千年的军事、宗教、商贸与文明交流，配乐与摄影被反复称赞。",
+    keyword: "河西走廊 纪录片"
+  },
+  "觉醒年代": {
+    poster: "📰",
+    meta: ["剧集", "历史", "2021", "中国大陆", "43 集", "豆瓣 9.3"],
+    desc: "从 1915 年《青年杂志》创刊讲起，到 1921 年中国共产党成立为止，再现陈独秀、李大钊、胡适、鲁迅等知识分子在旧中国寻找出路的过程，把教科书写成了有温度的人物故事。",
+    keyword: "觉醒年代 电视剧"
+  },
+  "长津湖": {
+    poster: "❄️",
+    meta: ["电影", "战争", "2021", "中国大陆", "176 分钟", "票房 57 亿+"],
+    desc: "以抗美援朝第二次战役中的长津湖战役为背景，讲述志愿军第七穿插连在零下四十度的极寒中执行穿插任务、切断敌军退路的过程，是华语影史票房最高的影片之一。",
+    keyword: "长津湖 电影"
+  },
+  "我的团长我的团": {
+    poster: "🎖️",
+    meta: ["剧集", "战争", "2009", "中国大陆", "43 集", "豆瓣 9.5"],
+    desc: "1942 年滇西战场，一群从溃败中活下来的溃兵被临时编成一团，在神秘团长龙文章的带领下于禅达一带与日军反复拉锯。全剧几乎没有\"高大全\"的英雄，写的是战争里普通人怎么活下去。",
+    keyword: "我的团长我的团 电视剧"
+  },
+  "八佰": {
+    poster: "🧱",
+    meta: ["电影", "战争", "2020", "中国大陆", "147 分钟", "票房 30 亿+"],
+    desc: "1937 年淞沪会战末期，第 88 师 524 团一营坚守苏州河北岸的四行仓库，与日军激战四昼夜。河对岸是租界的灯火，仓库里是必死的坚守，史称\"八百壮士\"。",
+    keyword: "八佰 电影"
   }
 };
 
@@ -582,7 +674,8 @@ function filterMovies(type, button) {
   var shown = 0;
 
   movies.forEach(function (movie) {
-    if (type === "全部" || movie.dataset.type === type) {
+    var types = (movie.dataset.type || "").split(/\s+/);
+    if (type === "全部" || types.indexOf(type) !== -1) {
       movie.style.display = "block";
       shown++;
     } else {
