@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>光影聚合 MovieHub</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #101116;
+  color: white;
+  font-family: Arial, "Microsoft YaHei", sans-serif;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 7%;
+  background: #191a22;
+}
+
+.logo {
+  color: #f5bd55;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+nav a {
+  color: #ddd;
+  text-decoration: none;
+  margin-left: 20px;
+}
+
+nav a:hover {
+  color: #f5bd55;
+}
+
+.hero {
+  padding: 65px 8%;
+  background: linear-gradient(120deg, #30334b, #171821);
+}
+
+.hero h1 {
+  font-size: 38px;
+  margin: 0 0 12px;
+}
+
+.hero p {
+  color: #ccc;
+  margin: 0;
+}
+
+.search {
+  display: flex;
+  max-width: 550px;
+  margin-top: 25px;
+}
+
+.search input {
+  flex: 1;
+  min-width: 0;
+  padding: 14px;
+  border: none;
+  border-radius: 8px 0 0 8px;
+  font-size: 15px;
+  outline: none;
+}
+
+.search button {
+  padding: 14px 22px;
+  border: none;
+  background: #f5bd55;
+  color: #111;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+}
+
+main {
+  padding: 30px 7%;
+}
+
+.categories {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+
+.categories button {
+  padding: 10px 18px;
+  border: 1px solid #444;
+  background: #20222d;
+  color: white;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.categories button.active {
+  background: #f5bd55;
+  color: #111;
+  border-color: #f5bd55;
+}
+
+.movies {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 20px;
+}
+
+.movie {
+  background: #1d1f29;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.movie:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+}
+
+.poster {
+  height: 210px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 55px;
+  background: linear-gradient(145deg, #454a67, #242638);
+}
+
+.movie-info {
+  padding: 13px;
+}
+
+.movie-info h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.movie-info p {
+  color: #aaa;
+  font-size: 13px;
+  margin: 0 0 4px;
+}
+
+.movie-info .meta {
+  color: #777;
+  font-size: 12px;
+}
+
+.badge {
+  flex: none;
+  font-size: 11px;
+  font-weight: normal;
+  color: #6bd47f;
+  border: 1px solid #34543c;
+  background: #1b2a20;
+  border-radius: 10px;
+  padding: 2px 8px;
+}
+
+.no-result {
+  color: #888;
+  padding: 30px 0;
+}
+
+/* ---------- 详情弹窗 ---------- */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  z-index: 99;
+}
+
+.overlay.show {
+  display: flex;
+}
+
+.modal {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  max-height: 88vh;
+  overflow: auto;
+  background: #1b1d27;
+  border: 1px solid #2c2f3c;
+  border-radius: 14px;
+  padding: 26px;
+}
+
+.modal .close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.modal .close:hover {
+  color: #fff;
+}
+
+.modal-poster {
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 64px;
+  border-radius: 10px;
+  background: linear-gradient(145deg, #454a67, #242638);
+  margin-bottom: 18px;
+}
+
+.modal h2 {
+  margin: 0 0 10px;
+  font-size: 22px;
+}
+
+.m-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.m-meta span {
+  font-size: 12px;
+  color: #cfd3dd;
+  background: #262a36;
+  border-radius: 6px;
+  padding: 4px 10px;
+}
+
+.m-desc {
+  color: #b9bec9;
+  font-size: 14px;
+  line-height: 1.75;
+  margin: 0 0 20px;
+}
+
+.m-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.open-tag {
+  font-size: 13px;
+  color: #6bd47f;
+}
+
+.m-actions a {
+  background: #f5bd55;
+  color: #111;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 11px 20px;
+  border-radius: 8px;
+}
+
+.m-actions a:hover {
+  background: #ffcb6b;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">光影聚合</div>
+  <nav>
+    <a href="#">首页</a>
+    <a href="#">电影</a>
+    <a href="#">剧集</a>
+    <a href="#">我的</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>发现好片，从这里开始</h1>
+  <p>影视信息导航平台 · 请通过正版授权渠道观看</p>
+
+  <div class="search">
+    <input id="searchInput" type="text" placeholder="输入片名，按回车搜索">
+    <button onclick="searchMovies()">搜索</button>
+  </div>
+</section>
+
+<main>
+
+  <div class="categories">
+    <button class="active" onclick="filterMovies('全部', this)">全部</button>
+    <button onclick="filterMovies('纪录片', this)">纪录片</button>
+    <button onclick="filterMovies('动画', this)">动画</button>
+  </div>
+
+  <div class="movies">
+
+    <div class="movie" data-type="纪录片" data-name="航拍中国" onclick="openDetail('航拍中国')">
+      <div class="poster">🌄</div>
+      <div class="movie-info">
+        <h3>航拍中国 <span class="badge">可打开</span></h3>
+        <p>纪录片 · 地理</p>
+        <p class="meta">2017 · 中国大陆 · 每集约 50 分钟</p>
+      </div>
+    </div>
+
+    <div class="movie" data-type="动画" data-name="哪吒之魔童降世" onclick="openDetail('哪吒之魔童降世')">
+      <div class="poster">🐉</div>
+      <div class="movie-info">
+        <h3>哪吒之魔童降世 <span class="badge">可打开</span></h3>
+        <p>动画 · 奇幻</p>
+        <p class="meta">2019 · 中国大陆 · 110 分钟</p>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="no-result" id="noResult" style="display:none;">没有找到匹配的影片</p>
+
+</main>
+
+<footer style="text-align:center;padding:30px;color:#888">
+  © 2026 光影聚合 MovieHub
+  <p>影视信息导航平台 · 请通过正版授权渠道观看</p>
+</footer>
+
+<!-- 详情弹窗 -->
+<div class="overlay" id="overlay" onclick="closeDetail()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <button class="close" onclick="closeDetail()" title="关闭">×</button>
+    <div class="modal-poster" id="mPoster">🌄</div>
+    <h2 id="mTitle"></h2>
+    <div class="m-meta" id="mMeta"></div>
+    <p class="m-desc" id="mDesc"></p>
+    <div class="m-actions">
+      <span class="open-tag">✅ 已标注可打开</span>
+      <a id="mLink" href="#" target="_blank" rel="noopener">在浏览器中打开</a>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------- 影片数据 ---------- */
+var MOVIES = {
+  "航拍中国": {
+    poster: "🌄",
+    meta: ["纪录片", "地理", "2017", "中国大陆", "每集约 50 分钟", "共四季"],
+    desc: "以空中视角俯瞰中国，用直升机与无人机镜头记录各省份的地貌、水系、城市与人文景观。全片不设旁白主持人，由航拍画面与音乐完成叙事，被称为\"地理教科书式的纪录片\"。",
+    keyword: "航拍中国 纪录片"
+  },
+  "哪吒之魔童降世": {
+    poster: "🐉",
+    meta: ["动画", "奇幻", "2019", "中国大陆", "110 分钟", "票房 50 亿+"],
+    desc: "天地灵气孕育出的混元珠被一分为二，哪吒阴差阳错成为魔丸转世，被陈塘关百姓视为妖怪。面对注定三年后遭天雷摧毁的命运，他喊出\"我命由我不由天\"，最终与敖丙、父母共同对抗天命。",
+    keyword: "哪吒之魔童降世 电影"
+  }
+};
+
+/* ---------- 详情弹窗 ---------- */
+function openDetail(name) {
+  var data = MOVIES[name];
+  if (!data) return;
+
+  document.getElementById("mPoster").textContent = data.poster;
+  document.getElementById("mTitle").textContent = name;
+
+  var metaBox = document.getElementById("mMeta");
+  metaBox.innerHTML = "";
+  data.meta.forEach(function (item) {
+    var s = document.createElement("span");
+    s.textContent = item;
+    metaBox.appendChild(s);
+  });
+
+  document.getElementById("mDesc").textContent = data.desc;
+
+  var link = document.getElementById("mLink");
+  link.href = "https://www.bing.com/search?q=" + encodeURIComponent(data.keyword);
+
+  document.getElementById("overlay").classList.add("show");
+}
+
+function closeDetail() {
+  document.getElementById("overlay").classList.remove("show");
+}
+
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Escape") closeDetail();
+});
+
+/* ---------- 分类筛选 ---------- */
+function filterMovies(type, button) {
+  var movies = document.querySelectorAll(".movie");
+  var shown = 0;
+
+  movies.forEach(function (movie) {
+    if (type === "全部" || movie.dataset.type === type) {
+      movie.style.display = "block";
+      shown++;
+    } else {
+      movie.style.display = "none";
+    }
+  });
+
+  document.querySelectorAll(".categories button").forEach(function (btn) {
+    btn.classList.remove("active");
+  });
+  button.classList.add("active");
+
+  document.getElementById("noResult").style.display = shown === 0 ? "block" : "none";
+}
+
+/* ---------- 搜索 ---------- */
+function searchMovies() {
+  var keyword = document
+    .getElementById("searchInput")
+    .value.trim()
+    .toLowerCase();
+
+  var movies = document.querySelectorAll(".movie");
+  var shown = 0;
+
+  movies.forEach(function (movie) {
+    var name = movie.dataset.name.toLowerCase();
+
+    if (name.indexOf(keyword) !== -1) {
+      movie.style.display = "block";
+      shown++;
+    } else {
+      movie.style.display = "none";
+    }
+  });
+
+  document.getElementById("noResult").style.display = shown === 0 ? "block" : "none";
+}
+
+document
+  .getElementById("searchInput")
+  .addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      searchMovies();
+    }
+  });
+</script>
+
+</body>
+</html>
