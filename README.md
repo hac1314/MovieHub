@@ -81,3 +81,7 @@ Chrome / Edge / Firefox / Safari 等现代浏览器（使用 `CSS Grid`、`NodeL
 ## 许可
 
 仅用于学习与演示。影片名称、简介等信息版权归各自权利人所有。
+
+## 在线预览
+
+已通过 GitHub Pages 部署：**https://hac1314.github.io/MovieHub/**
