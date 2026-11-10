@@ -130,6 +130,43 @@ main {
   border-color: #f5bd55;
 }
 
+/* 双维度筛选栏 */
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 22px 0 6px;
+}
+
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.filter-label {
+  flex: none;
+  width: 34px;
+  font-size: 13px;
+  color: #6f7480;
+  letter-spacing: 1px;
+}
+
+.filters .categories {
+  margin: 0;
+}
+
+.result-count {
+  color: #7d828e;
+  font-size: 13px;
+  margin: 14px 0 18px;
+}
+
+nav a.active {
+  color: #f5bd55;
+}
+
 .movies {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
@@ -361,6 +398,25 @@ main {
     margin: 14px 0;
   }
 
+  .filters {
+    gap: 8px;
+    margin: 16px 0 2px;
+  }
+
+  .filter-row {
+    gap: 8px;
+  }
+
+  .filter-label {
+    width: 30px;
+    font-size: 12px;
+  }
+
+  .result-count {
+    font-size: 12px;
+    margin: 10px 0 14px;
+  }
+
   .categories button {
     padding: 8px 14px;
     font-size: 13px;
@@ -456,10 +512,10 @@ main {
 <header>
   <div class="logo">光影聚合</div>
   <nav>
-    <a href="#">首页</a>
-    <a href="#">电影</a>
-    <a href="#">剧集</a>
-    <a href="#">我的</a>
+    <a href="#" class="active" onclick="return navFilter('全部')">首页</a>
+    <a href="#" onclick="return navFilter('电影')">电影</a>
+    <a href="#" onclick="return navFilter('剧集')">剧集</a>
+    <a href="#" onclick="return false">我的</a>
   </nav>
 </header>
 
@@ -475,17 +531,37 @@ main {
 
 <main>
 
-  <div class="categories">
-    <button class="active" onclick="filterMovies('全部', this)">全部</button>
-    <button onclick="filterMovies('历史', this)">历史</button>
-    <button onclick="filterMovies('战争', this)">战争</button>
-    <button onclick="filterMovies('纪录片', this)">纪录片</button>
-    <button onclick="filterMovies('动画', this)">动画</button>
+  <div class="filters">
+
+    <div class="filter-row">
+      <span class="filter-label">题材</span>
+      <div class="categories" id="genreChips">
+        <button class="active" onclick="setGenre('全部', this)">全部</button>
+        <button onclick="setGenre('历史', this)">历史</button>
+        <button onclick="setGenre('战争', this)">战争</button>
+        <button onclick="setGenre('传记', this)">传记</button>
+        <button onclick="setGenre('谍战', this)">谍战</button>
+        <button onclick="setGenre('纪录片', this)">纪录片</button>
+        <button onclick="setGenre('动画', this)">动画</button>
+      </div>
+    </div>
+
+    <div class="filter-row">
+      <span class="filter-label">类型</span>
+      <div class="categories" id="formatChips">
+        <button class="active" onclick="setFormat('全部', this)">全部</button>
+        <button onclick="setFormat('电影', this)">电影</button>
+        <button onclick="setFormat('剧集', this)">剧集</button>
+      </div>
+    </div>
+
   </div>
+
+  <p class="result-count" id="resultCount">共 13 部</p>
 
   <div class="movies">
 
-    <div class="movie" data-type="历史" data-name="大明王朝1566" onclick="openDetail('大明王朝1566')">
+    <div class="movie" data-type="剧集 历史" data-name="大明王朝1566" onclick="openDetail('大明王朝1566')">
       <div class="poster">🏯</div>
       <div class="movie-info">
         <h3>大明王朝1566 <span class="badge">可打开</span></h3>
@@ -494,7 +570,7 @@ main {
       </div>
     </div>
 
-    <div class="movie" data-type="历史 纪录片" data-name="河西走廊" onclick="openDetail('河西走廊')">
+    <div class="movie" data-type="纪录片 历史" data-name="河西走廊" onclick="openDetail('河西走廊')">
       <div class="poster">🐫</div>
       <div class="movie-info">
         <h3>河西走廊 <span class="badge">可打开</span></h3>
@@ -503,7 +579,7 @@ main {
       </div>
     </div>
 
-    <div class="movie" data-type="历史" data-name="觉醒年代" onclick="openDetail('觉醒年代')">
+    <div class="movie" data-type="剧集 历史" data-name="觉醒年代" onclick="openDetail('觉醒年代')">
       <div class="poster">📰</div>
       <div class="movie-info">
         <h3>觉醒年代 <span class="badge">可打开</span></h3>
@@ -512,7 +588,7 @@ main {
       </div>
     </div>
 
-    <div class="movie" data-type="战争" data-name="长津湖" onclick="openDetail('长津湖')">
+    <div class="movie" data-type="电影 战争" data-name="长津湖" onclick="openDetail('长津湖')">
       <div class="poster">❄️</div>
       <div class="movie-info">
         <h3>长津湖 <span class="badge">可打开</span></h3>
@@ -521,7 +597,7 @@ main {
       </div>
     </div>
 
-    <div class="movie" data-type="战争" data-name="我的团长我的团" onclick="openDetail('我的团长我的团')">
+    <div class="movie" data-type="剧集 战争" data-name="我的团长我的团" onclick="openDetail('我的团长我的团')">
       <div class="poster">🎖️</div>
       <div class="movie-info">
         <h3>我的团长我的团 <span class="badge">可打开</span></h3>
@@ -530,12 +606,57 @@ main {
       </div>
     </div>
 
-    <div class="movie" data-type="战争" data-name="八佰" onclick="openDetail('八佰')">
+    <div class="movie" data-type="电影 战争" data-name="八佰" onclick="openDetail('八佰')">
       <div class="poster">🧱</div>
       <div class="movie-info">
         <h3>八佰 <span class="badge">可打开</span></h3>
         <p>电影 · 战争</p>
         <p class="meta">2020 · 中国大陆 · 147 分钟</p>
+      </div>
+    </div>
+
+    <div class="movie" data-type="电影 传记" data-name="焦裕禄" onclick="openDetail('焦裕禄')">
+      <div class="poster">🌾</div>
+      <div class="movie-info">
+        <h3>焦裕禄 <span class="badge">可打开</span></h3>
+        <p>电影 · 传记</p>
+        <p class="meta">1990 · 中国大陆 · 100 分钟</p>
+      </div>
+    </div>
+
+    <div class="movie" data-type="电影 传记" data-name="钱学森" onclick="openDetail('钱学森')">
+      <div class="poster">🚀</div>
+      <div class="movie-info">
+        <h3>钱学森 <span class="badge">可打开</span></h3>
+        <p>电影 · 传记</p>
+        <p class="meta">2012 · 中国大陆 · 98 分钟</p>
+      </div>
+    </div>
+
+    <div class="movie" data-type="剧集 谍战" data-name="潜伏" onclick="openDetail('潜伏')">
+      <div class="poster">🕵️</div>
+      <div class="movie-info">
+        <h3>潜伏 <span class="badge">可打开</span></h3>
+        <p>剧集 · 谍战</p>
+        <p class="meta">2009 · 中国大陆 · 30 集</p>
+      </div>
+    </div>
+
+    <div class="movie" data-type="电影 谍战" data-name="风声" onclick="openDetail('风声')">
+      <div class="poster">📻</div>
+      <div class="movie-info">
+        <h3>风声 <span class="badge">可打开</span></h3>
+        <p>电影 · 谍战</p>
+        <p class="meta">2009 · 中国大陆 · 118 分钟</p>
+      </div>
+    </div>
+
+    <div class="movie" data-type="剧集 谍战" data-name="伪装者" onclick="openDetail('伪装者')">
+      <div class="poster">🎭</div>
+      <div class="movie-info">
+        <h3>伪装者 <span class="badge">可打开</span></h3>
+        <p>剧集 · 谍战</p>
+        <p class="meta">2015 · 中国大陆 · 48 集</p>
       </div>
     </div>
 
@@ -548,7 +669,7 @@ main {
       </div>
     </div>
 
-    <div class="movie" data-type="动画" data-name="哪吒之魔童降世" onclick="openDetail('哪吒之魔童降世')">
+    <div class="movie" data-type="电影 动画" data-name="哪吒之魔童降世" onclick="openDetail('哪吒之魔童降世')">
       <div class="poster">🐉</div>
       <div class="movie-info">
         <h3>哪吒之魔童降世 <span class="badge">可打开</span></h3>
@@ -633,6 +754,36 @@ var MOVIES = {
     meta: ["电影", "战争", "2020", "中国大陆", "147 分钟", "票房 30 亿+"],
     desc: "1937 年淞沪会战末期，第 88 师 524 团一营坚守苏州河北岸的四行仓库，与日军激战四昼夜。河对岸是租界的灯火，仓库里是必死的坚守，史称\"八百壮士\"。",
     keyword: "八佰 电影"
+  },
+  "焦裕禄": {
+    poster: "🌾",
+    meta: ["电影", "传记", "1990", "中国大陆", "100 分钟", "金鸡奖最佳故事片"],
+    desc: "1962 年，焦裕禄调任兰考县委书记，面对风沙、内涝、盐碱\"三害\"，他带着群众种泡桐、查风口。片子没有把他塑造成符号，而是写了一个忍着病痛骑车下乡的普通人。",
+    keyword: "焦裕禄 电影"
+  },
+  "钱学森": {
+    poster: "🚀",
+    meta: ["电影", "传记", "2012", "中国大陆", "98 分钟", "中宣部重点影片"],
+    desc: "从钱学森在美国被软禁五年、辗转回国讲起，到主持\"两弹一星\"工程。既有听证会上的交锋，也有戈壁滩上的试验，把一位科学家的选择与一个国家的起点放在一起。",
+    keyword: "钱学森 电影"
+  },
+  "潜伏": {
+    poster: "🕵️",
+    meta: ["剧集", "谍战", "2009", "中国大陆", "30 集", "豆瓣 9.4"],
+    desc: "1945 年，军统特工余则成在目睹腐败后转而为我方潜伏，与组织派来的\"假妻子\"翠平在天津站内部周旋。一边是刀尖上的情报战，一边是鸡飞狗跳的家庭日常，被称为谍战剧的标杆。",
+    keyword: "潜伏 电视剧"
+  },
+  "风声": {
+    poster: "📻",
+    meta: ["电影", "谍战", "2009", "中国大陆", "118 分钟", "豆瓣 8.5"],
+    desc: "日军为找出代号\"老鬼\"的潜伏者，把五个嫌疑人关进裘庄严刑逼供。密闭空间里的互相试探、审讯与反审讯，把\"谁在说谎\"拍成了一场心理酷刑。",
+    keyword: "风声 电影"
+  },
+  "伪装者": {
+    poster: "🎭",
+    meta: ["剧集", "谍战", "2015", "中国大陆", "48 集", "豆瓣 8.5"],
+    desc: "明家三姐弟各自藏着不同身份：大哥是军统特工也是我方卧底，二哥是军统情报官，弟弟被培养成双面间谍。一家人围着一桌吃饭，桌下却是三条不同的战线。",
+    keyword: "伪装者 电视剧"
   }
 };
 
@@ -668,51 +819,93 @@ document.addEventListener("keydown", function (event) {
   if (event.key === "Escape") closeDetail();
 });
 
-/* ---------- 分类筛选 ---------- */
-function filterMovies(type, button) {
-  var movies = document.querySelectorAll(".movie");
+/* ---------- 筛选状态（题材 × 类型 × 关键词） ---------- */
+var state = { genre: "全部", format: "全部", keyword: "" };
+
+function markActive(groupId, btn) {
+  document.querySelectorAll("#" + groupId + " button").forEach(function (b) {
+    b.classList.remove("active");
+  });
+  if (btn) btn.classList.add("active");
+}
+
+function applyFilter() {
+  var cards = document.querySelectorAll(".movie");
   var shown = 0;
 
-  movies.forEach(function (movie) {
-    var types = (movie.dataset.type || "").split(/\s+/);
-    if (type === "全部" || types.indexOf(type) !== -1) {
-      movie.style.display = "block";
-      shown++;
-    } else {
-      movie.style.display = "none";
+  cards.forEach(function (card) {
+    var types = (card.dataset.type || "").split(/\s+/);
+    var name = (card.dataset.name || "").toLowerCase();
+
+    var okGenre = state.genre === "全部" || types.indexOf(state.genre) !== -1;
+    var okFormat = state.format === "全部" || types.indexOf(state.format) !== -1;
+    var okKeyword = state.keyword === "" || name.indexOf(state.keyword) !== -1;
+
+    var show = okGenre && okFormat && okKeyword;
+    card.style.display = show ? "block" : "none";
+    if (show) shown++;
+  });
+
+  document.getElementById("noResult").style.display = shown === 0 ? "block" : "none";
+
+  var tags = [];
+  if (state.genre !== "全部") tags.push(state.genre);
+  if (state.format !== "全部") tags.push(state.format);
+  if (state.keyword !== "") tags.push("搜索：" + document.getElementById("searchInput").value.trim());
+
+  document.getElementById("resultCount").textContent =
+    "共 " + shown + " 部" + (tags.length ? " · " + tags.join(" · ") : "");
+}
+
+function setGenre(type, btn) {
+  state.genre = type;
+  markActive("genreChips", btn);
+  applyFilter();
+}
+
+function setFormat(type, btn) {
+  state.format = type;
+  markActive("formatChips", btn);
+  applyFilter();
+}
+
+/* 顶部导航：首页 / 电影 / 剧集 */
+function navFilter(format) {
+  var chips = document.querySelectorAll("#formatChips button");
+  chips.forEach(function (b) {
+    if (b.textContent.trim() === format) {
+      state.format = format;
+      markActive("formatChips", b);
     }
   });
 
-  document.querySelectorAll(".categories button").forEach(function (btn) {
-    btn.classList.remove("active");
-  });
-  button.classList.add("active");
+  if (format === "全部") {
+    state.genre = "全部";
+    var first = document.querySelector("#genreChips button");
+    markActive("genreChips", first);
+  }
 
-  document.getElementById("noResult").style.display = shown === 0 ? "block" : "none";
+  document.querySelectorAll("nav a").forEach(function (a) {
+    a.classList.remove("active");
+  });
+  document.querySelectorAll("nav a").forEach(function (a) {
+    var txt = a.textContent.trim();
+    if ((format === "全部" && txt === "首页") || txt === format) {
+      a.classList.add("active");
+    }
+  });
+
+  applyFilter();
+
+  var bar = document.querySelector(".filters");
+  if (bar) bar.scrollIntoView({ behavior: "smooth", block: "center" });
+  return false;
 }
 
 /* ---------- 搜索 ---------- */
 function searchMovies() {
-  var keyword = document
-    .getElementById("searchInput")
-    .value.trim()
-    .toLowerCase();
-
-  var movies = document.querySelectorAll(".movie");
-  var shown = 0;
-
-  movies.forEach(function (movie) {
-    var name = movie.dataset.name.toLowerCase();
-
-    if (name.indexOf(keyword) !== -1) {
-      movie.style.display = "block";
-      shown++;
-    } else {
-      movie.style.display = "none";
-    }
-  });
-
-  document.getElementById("noResult").style.display = shown === 0 ? "block" : "none";
+  state.keyword = document.getElementById("searchInput").value.trim().toLowerCase();
+  applyFilter();
 }
 
 document
@@ -722,6 +915,8 @@ document
       searchMovies();
     }
   });
+
+applyFilter();
 </script>
 
 </body>
